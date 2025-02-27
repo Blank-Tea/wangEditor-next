@@ -41,6 +41,11 @@
     }
   }
 
+  /* 解决 table 超出表格宽度时自适应宽度实效问题*/
+  table.table-width-auto {
+    table-layout: auto;
+  }
+
   /* 干掉 Chrome 默认选区样式*/
   table.table-selection-none *::selection {
     background: none;
@@ -124,7 +129,7 @@
     span.babel-container-border {
       display: flex;
 
-      &> * {
+      &>* {
         height: 28px;
         border: 1px solid var(--w-e-modal-button-border-color);
         border-radius: 2px;

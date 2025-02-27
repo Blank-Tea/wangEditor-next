@@ -118,7 +118,7 @@ function renderTable(elemNode: SlateElement, children: VNode[] | null, editor: I
          * 2. table 宽度为 auto 时，宽度为 列宽之和
          * 3. 鼠标移动到 单元格 边缘，设置 visible className
          */
-        className={`table ${isSelecting ? 'table-selection-none' : ''}`}
+        className={`table ${isSelecting ? 'table-selection-none' : ''} ${tableWidth === '100%' ? 'table-width-auto' : ''}`}
         style={{
           width: tableWidth === '100%' ? tableWidth : `${columnWidths.reduce((a, b) => a + b, 0)}px`,
         }}

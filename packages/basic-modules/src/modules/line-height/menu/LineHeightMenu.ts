@@ -65,6 +65,7 @@ class LineHeightMenu implements ISelectMenu {
 
         // line-height 匹配如下类型的 node
         if (type.startsWith('header')) { return true }
+        if (type.startsWith('table-cell')) { return true }
         if (['paragraph', 'blockquote', 'list-item'].includes(type)) {
           return true
         }
@@ -108,14 +109,34 @@ class LineHeightMenu implements ISelectMenu {
   }
 
   exec(editor: IDomEditor, value: string | boolean) {
+    const selectionType=getSelectedBlockType(editor)
     Transforms.setNodes(
       editor,
       {
         lineHeight: value.toString(),
       },
-      { mode: 'highest' },
+      { mode:selectionType==='table'? undefined: 'highest' },
     )
   }
 }
+
+const getSelectedBlockType = (editor:IDomEditor) => {
+  const { selection } = editor;
+
+  // 检查是否存在选区
+  if (!selection) {
+    return null;
+  }
+
+  // 获取最近的块级元素
+  const [match] = Array.from(
+    Editor.nodes(editor, {
+      at: selection,
+      match: n => Editor.isBlock(editor, n),
+    })
+  );
+
+  return match ? match[0].type : null;
+};
 
 export default LineHeightMenu
